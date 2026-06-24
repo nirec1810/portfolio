@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { fetchCollection } from '../../lib/payload'
+import type { Project } from '../../lib/types'
+import { getGradientClass, getDeviconClass, getDeviconColor } from '../../lib/utils'
+
+export async function getStaticPaths() {
+  const projects = await fetchCollection<Project>({ collection: 'projects', depth: 1, limit: 100 })
+  return projects.map((project) => ({
+    params: { slug: project.slug! },
+    props: { project },
+  }))
+}
+
+const { project } = Astro.props
+const gradient = getGradientClass(project.title)
+const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLanguage) : null
+---
+
+<BaseLayout title={project.title}>
+  <article class="mx-auto max-w-4xl">
+    {/* Header gradient */}
+    <header class="relative rounded-2xl overflow-hidden bg-gradient-to-br {gradient} mb-10">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/25" aria-hidden="true" />
+
+      {/* Large tech icon — bottom right */}
+      {primaryIcon && (
+        <div class="absolute bottom-6 right-6 md:bottom-8 md:right-8">
+          <i class={`${primaryIcon} text-white text-5xl md:text-6xl opacity-20`} aria-hidden="true"></i>
+        </div>
+      )}
+
+      <div class="relative p-8 md:p-10 text-white">
+        <a href="/#projects" class="inline-flex items-center gap-1 text-sm text-white/70 hover:text-white transition-colors mb-4">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Volver a proyectos
+        </a>
+
+        <h1 class="font-display text-2xl md:text-3xl font-bold tracking-tight">{project.title}</h1>
+
+        <div class="mt-3 flex flex-wrap items-center gap-3">
+          {project.year && (
+            <span class="text-sm opacity-80 font-mono">{project.year}</span>
+          )}
+          {project.primaryLanguage && (
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur text-xs font-medium text-white">
+              {primaryIcon && <i class={`${primaryIcon} text-xs`} aria-hidden="true"></i>}
+              {project.primaryLanguage}
+            </span>
+          )}
+          {project.architecture && (
+            <span class="px-2.5 py-1 rounded-full bg-white/20 backdrop-blur text-xs font-medium">
+              {project.architecture}
+            </span>
+          )}
+          {project.tier && project.tier >= 4 && (
+            <span class="px-2.5 py-1 rounded-full bg-white/20 backdrop-blur text-xs font-medium">
+              {'★'.repeat(project.tier > 5 ? 5 : project.tier)}
+            </span>
+          )}
+        </div>
+      </div>
+    </header>
+
+    {/* Description */}
+    <section class="mb-10">
+      <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Descripción</h2>
+      <div class="text-stone-600 leading-relaxed dark:text-stone-300">
+        {project.longDescription?.map((block) => (
+          <p class="mb-4">
+            {block.children?.map((child) => child.text).join(' ')}
+          </p>
+        )) ?? <p>{project.description}</p>}
+      </div>
+    </section>
+
+    {/* Architecture */}
+    {project.architecture && (
+      <section class="mb-10">
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Arquitectura</h2>
+        <div class="rounded-xl border border-stone-200 bg-stone-50 p-5 dark:border-stone-800 dark:bg-stone-900">
+          <div class="flex items-center gap-3">
+            {primaryIcon && (
+              <div class="flex items-center justify-center w-11 h-11 rounded-lg bg-white ring-1 ring-stone-200 dark:bg-stone-800 dark:ring-stone-700">
+                <i class={`${primaryIcon} text-2xl ${project.primaryLanguage ? getDeviconColor(project.primaryLanguage) : ''}`} aria-hidden="true"></i>
+              </div>
+            )}
+            <div>
+              <p class="font-medium text-stone-900 dark:text-stone-100">{project.architecture}</p>
+              {project.primaryLanguage && (
+                <p class="text-sm text-stone-500 dark:text-stone-400">{project.primaryLanguage}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* Tech stack table */}
+    {project.techStack && project.techStack.length > 0 && project.techStack.some(t => t.role) && (
+      <section class="mb-10">
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Stack tecnológico</h2>
+        <div class="rounded-xl border border-stone-200 overflow-hidden dark:border-stone-800">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-stone-50 border-b border-stone-200 dark:bg-stone-900 dark:border-stone-800">
+                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">Tecnología</th>
+                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">Rol</th>
+              </tr>
+            </thead>
+            <tbody>
+              {project.techStack.map(({ tech, role }) => {
+                const iconClass = getDeviconClass(tech)
+                return (
+                  <tr class="border-b border-stone-100 last:border-0 hover:bg-stone-50 transition-colors dark:border-stone-800 dark:hover:bg-stone-900/50">
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2.5">
+                        {iconClass && <i class={`${iconClass} text-lg ${getDeviconColor(tech)}`} aria-hidden="true"></i>}
+                        <span class="font-medium text-stone-900 dark:text-stone-100">{tech}</span>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 text-stone-500 dark:text-stone-400">{role || '—'}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    {/* Highlights */}
+    {project.highlights && project.highlights.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Logros destacados</h2>
+        <ul class="space-y-2.5">
+          {project.highlights.map(({ item }) => (
+            <li class="flex items-start gap-2.5 text-sm text-stone-600 dark:text-stone-300">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {/* Links */}
+    <div class="flex flex-wrap gap-3">
+      {project.links?.github && (
+        <a
+          href={project.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-700 font-medium hover:bg-stone-50 hover:border-stone-300 transition-colors dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:border-stone-600"
+        >
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          Código fuente
+        </a>
+      )}
+      {project.links?.live && (
+        <a
+          href={project.links.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 text-sm text-white font-medium hover:bg-amber-700 transition-colors dark:bg-amber-500 dark:text-stone-900 dark:hover:bg-amber-400"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          Live Demo
+        </a>
+      )}
+    </div>
+  </article>
+</BaseLayout>

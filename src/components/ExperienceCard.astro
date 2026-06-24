@@ -1,0 +1,54 @@
+---
+import { formatDate } from '../lib/utils'
+
+export interface Props {
+  experience: {
+    company: string
+    role: string
+    description?: string | null
+    highlights?: { item: string }[] | null
+    startDate: string
+    endDate?: string | null
+    current?: boolean | null
+  }
+}
+
+const { experience: exp } = Astro.props
+const initial = exp.company.trim().charAt(0).toUpperCase()
+---
+
+<div class="relative pl-12 pb-10 last:pb-0 group">
+  <div class="absolute left-[19px] top-4 bottom-0 w-px bg-amber-200 group-last:hidden dark:bg-amber-900/40"></div>
+  <div class="absolute left-0 top-1 flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white text-xs font-bold shadow-md shadow-amber-500/20 ring-4 ring-stone-50 dark:ring-[#111110]">
+    {initial}
+  </div>
+
+  <div class="rounded-xl border border-stone-200 bg-white p-6 transition-all duration-300 group-hover:border-stone-300 group-hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:group-hover:border-stone-700">
+    <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+      <div>
+        <h3 class="font-display font-semibold text-lg text-stone-900 dark:text-stone-100">{exp.role}</h3>
+        <p class="text-sm text-amber-600 dark:text-amber-400 font-medium">{exp.company}</p>
+      </div>
+      <time class="shrink-0 text-xs text-stone-400 dark:text-stone-500 font-mono">
+        {formatDate(exp.startDate)}
+        {' — '}
+        {exp.current ? 'Actual' : exp.endDate ? formatDate(exp.endDate) : ''}
+      </time>
+    </div>
+
+    {exp.description && (
+      <p class="mt-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{exp.description}</p>
+    )}
+
+    {exp.highlights && exp.highlights.length > 0 && (
+      <ul class="mt-3 space-y-2">
+        {exp.highlights.map(({ item }) => (
+          <li class="flex items-start gap-2.5 text-sm text-stone-600 dark:text-stone-300">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</div>

@@ -1,0 +1,137 @@
+---
+import { getGradientClass, getDeviconClass, getLanguageColor } from '../lib/utils'
+
+export interface Props {
+  project: {
+    title: string
+    description: string
+    slug?: string
+    year?: number | null
+    featured?: boolean | null
+    primaryLanguage?: string | null
+    architecture?: string | null
+    tier?: number | null
+    techStack?: { tech: string; role?: string }[] | null
+    highlights?: { item: string }[] | null
+    links?: { github?: string | null; live?: string | null } | null
+  }
+}
+
+const { project } = Astro.props
+const gradient = getGradientClass(project.title)
+const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLanguage) : null
+const langColor = project.primaryLanguage ? getLanguageColor(project.primaryLanguage) : 'bg-stone-100 text-stone-700 ring-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:ring-stone-700'
+---
+
+<article class="project-card-lift group rounded-xl border border-stone-200 bg-white overflow-hidden dark:border-stone-800 dark:bg-stone-900">
+  <a href={project.slug ? `/projects/${project.slug}` : project.links?.github || '#'} class="block overflow-hidden">
+    <div class={`aspect-[16/9] relative bg-gradient-to-br ${gradient} overflow-hidden`}>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true" />
+
+      {/* Language badge — top left */}
+      {project.primaryLanguage && (
+        <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm text-white text-[11px] font-medium">
+          {primaryIcon && <i class={`${primaryIcon} text-xs`} aria-hidden="true"></i>}
+          {project.primaryLanguage}
+        </div>
+      )}
+
+      {/* Tier stars — top right */}
+      {project.tier && project.tier >= 4 && (
+        <div class="absolute top-3 right-3 flex gap-2">
+          {project.featured && (
+            <span class="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur text-white text-[10px] font-medium uppercase tracking-wider">
+              Destacado
+            </span>
+          )}
+          <span class="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur text-white text-[10px] font-medium">
+            {'★'.repeat(project.tier > 5 ? 5 : project.tier)}
+          </span>
+          {project.year && (
+            <span class="px-2 py-0.5 rounded-full bg-black/30 backdrop-blur text-white text-[10px] font-medium">
+              {project.year}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Fallback: year only if no tier */}
+      {(!project.tier || project.tier < 4) && project.year && (
+        <div class="absolute top-3 right-3 flex gap-2">
+          {project.featured && (
+            <span class="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur text-white text-[10px] font-medium uppercase tracking-wider">
+              Destacado
+            </span>
+          )}
+          <span class="px-2 py-0.5 rounded-full bg-black/30 backdrop-blur text-white text-[10px] font-medium">
+            {project.year}
+          </span>
+        </div>
+      )}
+
+      {/* Title + icon */}
+      <div class="absolute inset-0 flex items-center justify-center p-6 text-white text-center transition-transform duration-500 group-hover:scale-105">
+        <h3 class="font-display font-bold text-lg leading-tight">{project.title}</h3>
+      </div>
+
+      {/* Large tech icon overlay */}
+      {primaryIcon && (
+        <div class="absolute bottom-3 right-3 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+          <i class={`${primaryIcon} text-white text-4xl opacity-25 group-hover:opacity-40 transition-opacity duration-300`} aria-hidden="true"></i>
+        </div>
+      )}
+    </div>
+  </a>
+
+  <div class="p-5 lg:p-6">
+    {project.architecture && (
+      <p class="text-xs font-medium text-stone-400 uppercase tracking-wide mb-1 dark:text-stone-500 font-mono">{project.architecture}</p>
+    )}
+    <p class="text-sm leading-relaxed text-stone-500 line-clamp-2 dark:text-stone-400">{project.description}</p>
+
+    {project.techStack && project.techStack.length > 0 && (
+      <div class="mt-3 flex flex-wrap gap-1.5">
+        {project.techStack.slice(0, 5).map(({ tech }) => {
+          const name = tech.toLowerCase()
+          const color = name.includes('c#') || name.includes('.net') ? 'bg-violet-100 text-violet-700 ring-violet-200 dark:bg-violet-900/40 dark:text-violet-300 dark:ring-violet-700/50' :
+                        name.includes('react') || name.includes('next') ? 'bg-sky-100 text-sky-700 ring-sky-200 dark:bg-sky-900/40 dark:text-sky-300 dark:ring-sky-700/50' :
+                        name.includes('python') || name.includes('flask') ? 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/40 dark:text-green-300 dark:ring-green-700/50' :
+                        name.includes('html') || name.includes('css') ? 'bg-orange-100 text-orange-700 ring-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:ring-orange-700/50' :
+                        name.includes('javascript') || name.includes('typescript') ? 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/40 dark:text-yellow-300 dark:ring-yellow-700/50' :
+                        name.includes('java') || name.includes('spring') ? 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/40 dark:text-red-300 dark:ring-red-700/50' :
+                        name.includes('razor') ? 'bg-blue-100 text-blue-700 ring-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:ring-blue-700/50' :
+                        'bg-stone-100 text-stone-700 ring-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:ring-stone-700'
+          return (
+            <span class={`rounded-md px-2 py-0.5 text-[11px] font-medium ring-1 ${color}`}>
+              {tech}
+            </span>
+          )
+        })}
+        {project.techStack.length > 5 && (
+          <span class="text-[11px] text-stone-400 dark:text-stone-500 self-center">+{project.techStack.length - 5}</span>
+        )}
+      </div>
+    )}
+
+    <div class="mt-4 flex flex-wrap gap-3 text-sm">
+      {project.links?.github && (
+        <a
+          href={project.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-amber-600 transition-colors dark:text-stone-500 dark:hover:text-amber-400"
+          onclick="event.stopPropagation()"
+        >
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          Código
+        </a>
+      )}
+      {project.slug && (
+        <a href={`/projects/${project.slug}`} class="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-amber-600 transition-colors dark:text-stone-500 dark:hover:text-amber-400">
+          Detalles
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      )}
+    </div>
+  </div>
+</article>
