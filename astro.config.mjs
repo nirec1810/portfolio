@@ -8,5 +8,13 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap(),
+  ],
+  experimental: {
+    clientPrerender: true,
+  },
+  image: {
+    service: { entrypoint: 'astro/assets/services/sharp' },
+  },
 })

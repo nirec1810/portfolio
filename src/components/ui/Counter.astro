@@ -1,0 +1,72 @@
+---
+export interface Props {
+  end: number
+  start?: number
+  duration?: number
+  suffix?: string
+  prefix?: string
+  class?: string
+  decimals?: number
+}
+
+const {
+  end,
+  start = 0,
+  duration = 2000,
+  suffix = '',
+  prefix = '',
+  class: className = '',
+  decimals = 0,
+} = Astro.props
+
+const id = `counter-${Math.random().toString(36).slice(2, 8)}`
+---
+
+<span class:list={[className]} id={id} aria-label={`${prefix}${end}${suffix}`}>
+  {start}
+</span>
+
+<script define:vars={{ id, start, end, duration, suffix, prefix, decimals }}>
+const el = document.getElementById(id)
+const startVal = start
+const endVal = end
+const durationMs = duration
+const suffixStr = suffix
+const prefixStr = prefix
+const decimalsVal = decimals
+
+function animateCounter() {
+  if (!el) return
+  const startTime = performance.now()
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / durationMs, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    const current = startVal + (endVal - startVal) * eased
+    el.textContent = prefixStr + current.toFixed(decimalsVal) + suffixStr
+
+    if (progress < 1) {
+      requestAnimationFrame(update)
+    } else {
+      el.textContent = prefixStr + endVal.toFixed(decimalsVal) + suffixStr
+    }
+  }
+
+  requestAnimationFrame(update)
+}
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter()
+        observer.unobserve(entry)
+      }
+    })
+  },
+  { rootMargin: '0px 0px -80px 0px' },
+)
+
+if (el) observer.observe(el)
+</script>

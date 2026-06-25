@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { locales, defaultLocale, type Locale } from '../i18n/index'
+
+const url = Astro.url
+const lang = (locales.find(l => url.pathname.startsWith(`/${l}/`)) || defaultLocale) as Locale
+import { t } from '../i18n/index'
+---
+
+<BaseLayout title="404" lang={lang}>
+  <div class="flex flex-col items-center justify-center py-24 text-center">
+    <div class="text-8xl font-display font-extrabold text-stone-200 dark:text-stone-800 select-none">
+      404
+    </div>
+    <h1 class="mt-4 text-2xl font-display font-bold text-stone-900 dark:text-stone-100">
+      {t('404.title', lang)}
+    </h1>
+    <p class="mt-2 text-stone-500 dark:text-stone-400 max-w-sm">
+      {t('404.description', lang)}
+    </p>
+    <a
+      href={`/${lang}/`}
+      class="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 transition-colors dark:bg-amber-500 dark:text-stone-900 dark:hover:bg-amber-400"
+    >
+      {t('404.goHome', lang)}
+    </a>
+  </div>
+</BaseLayout>

@@ -1,23 +1,23 @@
-import { mockData } from './mock-data'
+import { getData } from './mock-data'
+import type { Locale } from '../i18n/index'
 
 interface FetchCollectionParams {
   collection: string
+  locale: Locale
   depth?: number
   limit?: number
   where?: Record<string, unknown>
   sort?: string
 }
 
-function applyFilters<T>(data: T[], params: FetchCollectionParams): T[] {
+function applyFilters<T>(data: T[], params: { where?: Record<string, unknown>; sort?: string; limit?: number }): T[] {
   let result = [...data]
 
   if (params.where) {
     for (const [key, condition] of Object.entries(params.where)) {
       const cond = condition as Record<string, unknown>
       if (cond.equals !== undefined) {
-        result = result.filter(
-          (item: any) => item[key] === cond.equals,
-        )
+        result = result.filter((item: any) => item[key] === cond.equals)
       }
     }
   }
@@ -41,20 +41,24 @@ function applyFilters<T>(data: T[], params: FetchCollectionParams): T[] {
 
 export async function fetchCollection<T>({
   collection,
+  locale,
   limit = 100,
   where,
   sort,
 }: FetchCollectionParams): Promise<T[]> {
-  const mock = (mockData[collection] ?? []) as T[]
-  return applyFilters(mock, { collection, where, sort, limit })
+  const data = getData(locale)
+  const collectionData = (data as any)[collection] ?? []
+  return applyFilters(collectionData, { where, sort, limit })
 }
 
 export async function fetchBySlug<T>(
   collection: string,
   slug: string,
+  locale: Locale,
 ): Promise<T | null> {
   const docs = await fetchCollection<T>({
     collection,
+    locale,
     where: { slug: { equals: slug } },
     limit: 1,
   })

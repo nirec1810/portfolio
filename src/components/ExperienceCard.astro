@@ -32,7 +32,7 @@ const initial = exp.company.trim().charAt(0).toUpperCase()
       <time class="shrink-0 text-xs text-stone-400 dark:text-stone-500 font-mono">
         {formatDate(exp.startDate)}
         {' — '}
-        {exp.current ? 'Actual' : exp.endDate ? formatDate(exp.endDate) : ''}
+        {exp.current ? 'Present' : exp.endDate ? formatDate(exp.endDate) : ''}
       </time>
     </div>
 

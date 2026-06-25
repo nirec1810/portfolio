@@ -1,0 +1,56 @@
+---
+export interface Props {
+  text: string
+  speed?: number
+  class?: string
+  tag?: 'h1' | 'h2' | 'h3' | 'p' | 'span'
+}
+
+const { text, speed = 40, class: className = '', tag: Tag = 'span' } = Astro.props
+const id = `typewriter-${Math.random().toString(36).slice(2, 8)}`
+---
+
+<Tag class:list={[className]} id={id} aria-label={text}>
+  <span class="typewriter-cursor" aria-hidden="true">|</span>
+</Tag>
+
+<script define:vars={{ id, text, speed }}>
+const el = document.getElementById(id)
+const fullText = text
+const speedMs = speed
+let index = 0
+
+function type() {
+  if (!el) return
+  if (index < fullText.length) {
+    const cursor = el.querySelector('.typewriter-cursor')
+    if (cursor) {
+      cursor.before(document.createTextNode(fullText.charAt(index)))
+    }
+    index++
+    setTimeout(type, speedMs + Math.random() * speedMs)
+  } else {
+    const cursor = el.querySelector('.typewriter-cursor')
+    if (cursor) cursor.style.animation = 'typewriter-blink 0.8s step-end infinite'
+  }
+}
+
+el?.addEventListener('astro:page-load', () => {
+  el.innerHTML = '<span class="typewriter-cursor" aria-hidden="true">|</span>'
+  index = 0
+  type()
+}, { once: true })
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', type)
+} else {
+  type()
+}
+</script>
+
+<style is:global>
+@keyframes typewriter-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+</style>

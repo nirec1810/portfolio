@@ -1,29 +1,51 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import { fetchCollection } from '../../lib/payload'
-import type { Project } from '../../lib/types'
-import { getGradientClass, getDeviconClass, getDeviconColor } from '../../lib/utils'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { getData } from '../../../lib/mock-data'
+import { getDeviconClass, getDeviconColor } from '../../../lib/utils'
+import { t, locales, type Locale } from '../../../i18n/index'
 
 export async function getStaticPaths() {
-  const projects = await fetchCollection<Project>({ collection: 'projects', depth: 1, limit: 100 })
-  return projects.map((project) => ({
-    params: { slug: project.slug! },
-    props: { project },
-  }))
+  const allPaths: { params: { lang: string; slug: string }; props: { locale: Locale } }[] = []
+  for (const locale of locales) {
+    const data = getData(locale)
+    for (const project of data.projects) {
+      if (project.slug) {
+        allPaths.push({ params: { lang: locale, slug: project.slug }, props: { locale } })
+      }
+    }
+  }
+  return allPaths
 }
 
-const { project } = Astro.props
+const { slug, lang } = Astro.params as { slug: string; lang: Locale }
+const { locale } = Astro.props as { locale: Locale }
+const data = getData(lang)
+const project = data.projects.find(p => p.slug === slug)
+
+if (!project) return Astro.redirect(`/${lang}/#projects`)
+
 const gradient = getGradientClass(project.title)
 const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLanguage) : null
+
+function getGradientClass(title: string): string {
+  const gradients = [
+    'from-amber-500 to-orange-600', 'from-emerald-500 to-teal-600',
+    'from-rose-500 to-pink-600', 'from-violet-500 to-purple-600',
+    'from-cyan-500 to-sky-600', 'from-stone-600 to-stone-800',
+    'from-amber-600 to-red-500', 'from-teal-500 to-cyan-600',
+    'from-rose-400 to-amber-500', 'from-indigo-500 to-violet-600',
+  ]
+  let hash = 0
+  for (let i = 0; i < title.length; i++) hash = title.charCodeAt(i) + ((hash << 5) - hash)
+  return gradients[Math.abs(hash) % gradients.length]
+}
 ---
 
-<BaseLayout title={project.title}>
+<BaseLayout title={project.title} description={project.description} lang={lang}>
   <article class="mx-auto max-w-4xl">
-    {/* Header gradient */}
-    <header class="relative rounded-2xl overflow-hidden bg-gradient-to-br {gradient} mb-10">
+    <header class:list={['relative rounded-2xl overflow-hidden bg-gradient-to-br', gradient, 'mb-10']}>
       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/25" aria-hidden="true" />
 
-      {/* Large tech icon — bottom right */}
       {primaryIcon && (
         <div class="absolute bottom-6 right-6 md:bottom-8 md:right-8">
           <i class={`${primaryIcon} text-white text-5xl md:text-6xl opacity-20`} aria-hidden="true"></i>
@@ -31,9 +53,9 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       )}
 
       <div class="relative p-8 md:p-10 text-white">
-        <a href="/#projects" class="inline-flex items-center gap-1 text-sm text-white/70 hover:text-white transition-colors mb-4">
+        <a href={`/${lang}/#projects`} class="inline-flex items-center gap-1 text-sm text-white/70 hover:text-white transition-colors mb-4">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          Volver a proyectos
+          {t('project.backToProjects', lang)}
         </a>
 
         <h1 class="font-display text-2xl md:text-3xl font-bold tracking-tight">{project.title}</h1>
@@ -62,9 +84,8 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       </div>
     </header>
 
-    {/* Description */}
     <section class="mb-10">
-      <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Descripción</h2>
+      <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">{t('project.description', lang)}</h2>
       <div class="text-stone-600 leading-relaxed dark:text-stone-300">
         {project.longDescription?.map((block) => (
           <p class="mb-4">
@@ -74,10 +95,9 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       </div>
     </section>
 
-    {/* Architecture */}
     {project.architecture && (
       <section class="mb-10">
-        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Arquitectura</h2>
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">{t('project.architecture', lang)}</h2>
         <div class="rounded-xl border border-stone-200 bg-stone-50 p-5 dark:border-stone-800 dark:bg-stone-900">
           <div class="flex items-center gap-3">
             {primaryIcon && (
@@ -96,16 +116,15 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       </section>
     )}
 
-    {/* Tech stack table */}
     {project.techStack && project.techStack.length > 0 && project.techStack.some(t => t.role) && (
       <section class="mb-10">
-        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Stack tecnológico</h2>
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">{t('project.techStack', lang)}</h2>
         <div class="rounded-xl border border-stone-200 overflow-hidden dark:border-stone-800">
           <table class="w-full text-sm">
             <thead>
               <tr class="bg-stone-50 border-b border-stone-200 dark:bg-stone-900 dark:border-stone-800">
-                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">Tecnología</th>
-                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">Rol</th>
+                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">{t('project.technology', lang)}</th>
+                <th class="text-left px-4 py-3 font-medium text-stone-600 dark:text-stone-400">{t('project.role', lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -129,10 +148,9 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       </section>
     )}
 
-    {/* Highlights */}
     {project.highlights && project.highlights.length > 0 && (
       <section class="mb-10">
-        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">Logros destacados</h2>
+        <h2 class="text-lg font-display font-bold text-stone-900 mb-4 dark:text-stone-100">{t('project.achievements', lang)}</h2>
         <ul class="space-y-2.5">
           {project.highlights.map(({ item }) => (
             <li class="flex items-start gap-2.5 text-sm text-stone-600 dark:text-stone-300">
@@ -144,7 +162,6 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
       </section>
     )}
 
-    {/* Links */}
     <div class="flex flex-wrap gap-3">
       {project.links?.github && (
         <a
@@ -154,7 +171,7 @@ const primaryIcon = project.primaryLanguage ? getDeviconClass(project.primaryLan
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-700 font-medium hover:bg-stone-50 hover:border-stone-300 transition-colors dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:border-stone-600"
         >
           <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          Código fuente
+          {t('project.sourceCode', lang)}
         </a>
       )}
       {project.links?.live && (

@@ -1,0 +1,70 @@
+---
+export interface Props {
+  name: string
+  proficiency: number
+  label?: string
+  color?: string
+  class?: string
+}
+
+const {
+  name,
+  proficiency,
+  label,
+  color = 'bg-amber-500',
+  class: className = '',
+} = Astro.props
+
+const id = `skillbar-${Math.random().toString(36).slice(2, 8)}`
+const clampedProficiency = Math.min(Math.max(proficiency, 0), 100)
+---
+
+<div class:list={[className, 'skill-bar']} id={id} role="progressbar" aria-valuenow={clampedProficiency} aria-valuemin={0} aria-valuemax={100} aria-label={`${name}: ${label || proficiency}%`}>
+  <div class="flex items-center justify-between mb-1.5">
+    <span class="text-sm font-medium text-stone-700 dark:text-stone-300">{name}</span>
+    <span class="text-xs font-mono text-stone-400 dark:text-stone-500">{label || `${Math.round(clampedProficiency)}%`}</span>
+  </div>
+  <div class="h-2 bg-stone-100 rounded-full overflow-hidden dark:bg-stone-800">
+    <div
+      class:list={['h-full rounded-full', color, 'skill-bar-fill']}
+      style={`width: 0%`}
+      data-target={clampedProficiency}
+    />
+  </div>
+</div>
+
+<script define:vars={{ id }}>
+const el = document.getElementById(id)
+const fill = el?.querySelector('.skill-bar-fill')
+const target = Number(fill?.getAttribute('data-target') || 0)
+
+function animateBar() {
+  if (!fill) return
+  const startTime = performance.now()
+  const duration = 800
+
+  function update(time) {
+    const elapsed = time - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    fill.style.width = target * eased + '%'
+    if (progress < 1) requestAnimationFrame(update)
+  }
+
+  requestAnimationFrame(update)
+}
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateBar()
+        observer.unobserve(entry)
+      }
+    })
+  },
+  { rootMargin: '0px 0px -40px 0px' },
+)
+
+if (el) observer.observe(el)
+</script>
