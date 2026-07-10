@@ -71,6 +71,33 @@ const mockEducation = [
 
 const mockProjectsEn = [
   {
+    title: 'EcoTareas',
+    slug: 'ecotareas',
+    description: 'Full-stack web application for organizing and managing environmental volunteer brigades. Coordinators create and assign tasks to volunteers with a differentiated role system and complete workflow.',
+    longDescription: [
+      { children: [{ text: 'Full-stack web application for organizing and managing environmental volunteer brigades. Built as a sole developer project using Next.js 16, Supabase and Tailwind CSS v4.' }] },
+      { children: [{ text: 'Server Actions for all mutations — no REST endpoints exposed, write operations execute server-side directly from components. Middleware implemented in proxy.ts (not middleware.ts) for route protection and session handling with Supabase Auth. Zod validation on all user inputs. UI entirely in Spanish, code in English — clean separation between presentation and logic layers.' }] },
+      { children: [{ text: 'Complete authentication with Supabase Auth, Row Level Security with role-based policies plus explicit GRANT statements, Storage bucket with RLS, full CRUD for brigades and tasks, role-differentiated dashboards (coordinator vs. volunteer), and route protection via proxy.ts.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'TypeScript', architecture: 'Next.js 16 + Supabase + Server Actions',
+    techStack: [
+      { tech: 'Next.js', role: 'Full-stack framework' }, { tech: 'TypeScript', role: 'Logic and types' },
+      { tech: 'Supabase', role: 'Auth + PostgreSQL + Storage + RLS' }, { tech: 'Tailwind CSS', role: 'Styling (v4)' },
+      { tech: 'Zod', role: 'Schema validation' }, { tech: 'Server Actions', role: 'Server mutations' },
+      { tech: 'Vercel', role: 'Deployment' },
+    ],
+    highlights: [
+      { item: 'Supabase Auth + RLS with GRANT statements for role-based access' },
+      { item: 'Server Actions for all write operations — no REST endpoints' },
+      { item: 'proxy.ts middleware for route protection and session handling' },
+      { item: 'Role-differentiated dashboards (coordinator vs. volunteer)' },
+      { item: 'Storage bucket with RLS for file attachments' },
+      { item: 'Live production deploy at ecotareas.vercel.app' },
+    ],
+    links: { github: 'https://github.com/nirec1810/ecotareas', live: 'https://ecotareas.vercel.app' },
+  },
+  {
     title: 'EcoShelf Analytics',
     slug: 'ecoshelf-analytics',
     description: 'Comprehensive platform for managing food surplus in bakeries. Suggestion engine and real-time inventory analytics.',
@@ -91,7 +118,7 @@ const mockProjectsEn = [
       { item: 'Dashboard with KPIs, expiration alerts, and profitability analysis' },
       { item: 'Authentication with Supabase Auth and route protection' },
     ],
-    links: { github: 'https://github.com/nirec1810/ecoshelf-analytics' },
+    links: { github: 'https://github.com/nirec1810/ecoshelf-analytics', live: 'https://ecoshelf-analytics.vercel.app/' },
   },
   {
     title: 'Mejores Prácticas',
@@ -111,7 +138,7 @@ const mockProjectsEn = [
     highlights: [
       { item: 'Singleton, Repository, Builder and Factory Method implementation' },
       { item: 'Patterns applied in real context, not isolated examples' },
-      { item: 'Most recent project (June 2026)' },
+      { item: 'ASP.NET Core MVC with Razor views' },
     ],
     links: { github: 'https://github.com/nirec1810/Mejores_practicas' },
   },
@@ -219,7 +246,7 @@ const mockProjectsEn = [
       { item: 'Persistent bidirectional communication' },
       { item: 'No polling — native WebSockets' },
     ],
-    links: { github: 'https://github.com/nirec1810/Voxline' },
+    links: { github: 'https://github.com/nirec1810/Voxline', live: 'https://voxline.onrender.com' },
   },
   {
     title: 'RecaldeNicolasPeople',
@@ -278,6 +305,33 @@ const mockProjectsEn = [
 
 const mockProjectsEs = [
   {
+    title: 'EcoTareas',
+    slug: 'ecotareas',
+    description: 'Aplicación web full-stack para la organización y gestión de brigadas de voluntariado ambiental. Permite a coordinadores crear y asignar tareas a voluntarios con un sistema de roles diferenciado.',
+    longDescription: [
+      { children: [{ text: 'Aplicación web full-stack para la organización y gestión de brigadas de voluntariado ambiental. Desarrollada como proyecto independiente usando Next.js 16, Supabase y Tailwind CSS v4.' }] },
+      { children: [{ text: 'Server Actions para todas las mutaciones — sin endpoints REST expuestos, las operaciones de escritura se ejecutan en el servidor desde los componentes. Middleware implementado en proxy.ts para protección de rutas y manejo de sesión con Supabase Auth. Validación con Zod en todas las entradas del usuario. UI completamente en español, código en inglés.' }] },
+      { children: [{ text: 'Autenticación completa con Supabase Auth, Row Level Security con políticas por rol más GRANT statements explícitos, Storage bucket con RLS, CRUD completo de brigadas y tareas, panel diferenciado por rol (coordinador vs. voluntario) y protección de rutas via proxy.ts.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'TypeScript', architecture: 'Next.js 16 + Supabase + Server Actions',
+    techStack: [
+      { tech: 'Next.js', role: 'Framework full-stack' }, { tech: 'TypeScript', role: 'Lógica y tipos' },
+      { tech: 'Supabase', role: 'Auth + PostgreSQL + Storage + RLS' }, { tech: 'Tailwind CSS', role: 'Estilos (v4)' },
+      { tech: 'Zod', role: 'Validación de esquemas' }, { tech: 'Server Actions', role: 'Mutaciones del servidor' },
+      { tech: 'Vercel', role: 'Deploy' },
+    ],
+    highlights: [
+      { item: 'Supabase Auth + RLS con GRANT statements para acceso por roles' },
+      { item: 'Server Actions para todas las operaciones de escritura — sin endpoints REST' },
+      { item: 'Middleware proxy.ts para protección de rutas y manejo de sesión' },
+      { item: 'Panel diferenciado por rol (coordinador vs. voluntario)' },
+      { item: 'Storage bucket con RLS para archivos adjuntos' },
+      { item: 'Deploy en producción en ecotareas.vercel.app' },
+    ],
+    links: { github: 'https://github.com/nirec1810/ecotareas', live: 'https://ecotareas.vercel.app' },
+  },
+  {
     title: 'EcoShelf Analytics',
     slug: 'ecoshelf-analytics',
     description: 'Plataforma integral para la gestión de excedentes alimentarios en panaderías. Motor de sugerencias y analítica de inventario en tiempo real.',
@@ -298,7 +352,7 @@ const mockProjectsEs = [
       { item: 'Dashboard con KPIs, alertas de vencimiento y análisis de rentabilidad' },
       { item: 'Autenticación con Supabase Auth y protección de rutas' },
     ],
-    links: { github: 'https://github.com/nirec1810/ecoshelf-analytics' },
+    links: { github: 'https://github.com/nirec1810/ecoshelf-analytics', live: 'https://ecoshelf-analytics.vercel.app/' },
   },
   {
     title: 'Mejores Prácticas',
@@ -318,7 +372,7 @@ const mockProjectsEs = [
     highlights: [
       { item: 'Implementación de Singleton, Repository, Builder y Factory Method' },
       { item: 'Patrones aplicados en contexto real, no ejemplos aislados' },
-      { item: 'Proyecto más reciente del portfolio (Junio 2026)' },
+      { item: 'ASP.NET Core MVC con vistas Razor' },
     ],
     links: { github: 'https://github.com/nirec1810/Mejores_practicas' },
   },
@@ -426,7 +480,7 @@ const mockProjectsEs = [
       { item: 'Comunicación bidireccional persistente' },
       { item: 'Sin polling — WebSockets nativos' },
     ],
-    links: { github: 'https://github.com/nirec1810/Voxline' },
+    links: { github: 'https://github.com/nirec1810/Voxline', live: 'https://voxline.onrender.com' },
   },
   {
     title: 'RecaldeNicolasPeople',
