@@ -66,6 +66,9 @@ const deviconMap: Record<string, string> = {
   'shaders': 'devicon-unity-plain',
   'osgi': 'devicon-java-plain',
   'karaf': 'devicon-java-plain',
+  'express': 'devicon-express-original',
+  'vite': 'devicon-vitejs-plain',
+  'vitest': 'devicon-vitest-plain',
 }
 
 export function getDeviconClass(tech: string): string | null {
@@ -119,6 +122,9 @@ const deviconBrandColors: Record<string, string> = {
   'vercel': 'text-stone-600 dark:text-stone-300',
   'sqlite': 'text-blue-600 dark:text-blue-400',
   'unity': 'text-stone-600 dark:text-stone-400',
+  'express': 'text-stone-600 dark:text-stone-300',
+  'vite': 'text-violet-500 dark:text-violet-400',
+  'vitest': 'text-green-500 dark:text-green-400',
 }
 
 export function getDeviconColor(tech: string): string {

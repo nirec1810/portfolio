@@ -71,6 +71,40 @@ const mockEducation = [
 
 const mockProjectsEn = [
   {
+    title: 'Trafico',
+    slug: 'trafico',
+    description: 'Full-stack urban traffic simulation tool with CLI engine, REST API, and interactive web dashboard. Models road networks as directed graphs, simulates vehicular flow with configurable traffic lights, and generates congestion metrics.',
+    longDescription: [
+      { children: [{ text: 'Full-stack urban traffic simulation tool with a CLI engine, REST API, and interactive web dashboard. Built as a monorepo with 3 independent packages orchestrated with concurrently in development and a multi-stage Dockerfile for deployment.' }] },
+      { children: [{ text: 'Models road networks as directed graphs, simulates vehicular flow with configurable traffic lights (fixed or adaptive), and generates congestion and travel time metrics. The simulation engine runs discrete events with a 3-second tick, routes vehicles via Dijkstra, and calculates congestion based on spatial capacity (length × lanes per street).' }] },
+      { children: [{ text: 'Two traffic light modes: fixed-time traditional vs. adaptive (green duration calculated live based on vehicle queue in each direction, using geographic heading angle to determine directions). Comparison mode runs the same network in both modes and shows improvement delta in travel time, completion rate, and abandonment.' }] },
+      { children: [{ text: 'Animated replay reproduces any saved simulation tick-by-tick on an SVG graph, with play/pause/speed controls (1x–10x) and vehicles colored by speed (green/amber/red). Dual persistence: SQLite locally, Turso (libSQL) in production, saving per-tick positions to power the replay.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'TypeScript', architecture: 'Monorepo 3 capas: CLI → Engine → API → Dashboard',
+    techStack: [
+      { tech: 'TypeScript', role: 'Lenguaje principal en todos los paquetes' },
+      { tech: 'Node.js', role: 'Runtime del motor y la API' },
+      { tech: 'Express', role: 'REST API' },
+      { tech: 'React', role: 'Dashboard interactivo' },
+      { tech: 'Vite', role: 'Bundler y dev server del frontend' },
+      { tech: 'SQLite', role: 'Persistencia local' },
+      { tech: 'Docker', role: 'Multi-stage build para despliegue' },
+      { tech: 'Vitest', role: 'Testing del motor y la API' },
+      { tech: 'Vercel', role: 'Deploy via contenedor' },
+    ],
+    highlights: [
+      { item: 'Motor de simulación de eventos discretos desde cero (grafos, Dijkstra, modelado de capacidad)' },
+      { item: 'Monorepo desacoplado: src/ (librería núcleo), server/ (API), client/ (SPA)' },
+      { item: 'Desarrollo dirigido por especificaciones (OpenSpec): cada feature documentada como propuesta técnica versionada' },
+      { item: 'Modo comparación: benchmark lado a lado de semáforos fijos vs. adaptativos' },
+      { item: 'Replay animado tick-a-tick sobre grafo SVG con controles de velocidad' },
+      { item: 'Persistencia dual: SQLite (dev) → Turso/libSQL (prod) con posiciones por tick' },
+      { item: 'CLI completo con exportación a terminal/CSV, seeds reproducibles y flag --compare' },
+    ],
+    links: { github: 'https://github.com/nirec1810/trafico.git', live: 'https://trafico-red.vercel.app/' },
+  },
+  {
     title: 'EcoTareas',
     slug: 'ecotareas',
     description: 'Full-stack web application for organizing and managing environmental volunteer brigades. Coordinators create and assign tasks to volunteers with a differentiated role system and complete workflow.',
@@ -304,6 +338,40 @@ const mockProjectsEn = [
 ]
 
 const mockProjectsEs = [
+  {
+    title: 'Trafico',
+    slug: 'trafico',
+    description: 'Herramienta full-stack de simulación de tráfico urbano con motor CLI, API REST y dashboard web interactivo. Modela redes viales como grafos dirigidos, simula flujo vehicular con semáforos configurables y genera métricas de congestión.',
+    longDescription: [
+      { children: [{ text: 'Herramienta full-stack de simulación de tráfico urbano con motor CLI, API REST y dashboard web interactivo. Construido como monorepo con 3 paquetes independientes orquestados con concurrently en desarrollo y un Dockerfile multi-stage para despliegue.' }] },
+      { children: [{ text: 'Modela redes viales como grafos dirigidos, simula flujo vehicular con semáforos configurables (fijos o adaptativos) y genera métricas de congestión y tiempo de viaje. El motor de simulación ejecuta eventos discretos con tick de 3s, rutea vehículos por Dijkstra y calcula congestión basada en capacidad espacial (longitud × carriles de cada calle).' }] },
+      { children: [{ text: 'Dos modos de semáforo: tiempo fijo tradicional vs. adaptativo (la duración del verde se calcula en vivo según la cola de vehículos esperando en cada dirección, usando ángulo de rumbo geográfico para determinar direcciones). Modo comparación: corre la misma red en ambos modos y muestra el delta de mejora en tiempo de viaje, tasa de finalización y abandono.' }] },
+      { children: [{ text: 'Replay animado: reproduce cualquier simulación guardada tick-a-tick sobre el grafo SVG, con controles de play/pausa/velocidad (1x–10x) y vehículos coloreados por velocidad (verde/ámbar/rojo). Persistencia dual: SQLite en desarrollo local, Turso (libSQL) en producción, guardando posiciones por tick para alimentar el replay.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'TypeScript', architecture: 'Monorepo 3 capas: CLI → Engine → API → Dashboard',
+    techStack: [
+      { tech: 'TypeScript', role: 'Lenguaje principal en todos los paquetes' },
+      { tech: 'Node.js', role: 'Runtime del motor y la API' },
+      { tech: 'Express', role: 'API REST' },
+      { tech: 'React', role: 'Dashboard interactivo' },
+      { tech: 'Vite', role: 'Bundler y dev server del frontend' },
+      { tech: 'SQLite', role: 'Persistencia local' },
+      { tech: 'Docker', role: 'Multi-stage build para despliegue' },
+      { tech: 'Vitest', role: 'Testing del motor y la API' },
+      { tech: 'Vercel', role: 'Deploy via contenedor' },
+    ],
+    highlights: [
+      { item: 'Motor de simulación de eventos discretos desde cero (grafos, Dijkstra, modelado de capacidad)' },
+      { item: 'Monorepo desacoplado: src/ (librería núcleo), server/ (API), client/ (SPA)' },
+      { item: 'Desarrollo dirigido por especificaciones (OpenSpec): cada feature documentada como propuesta técnica versionada' },
+      { item: 'Modo comparación: benchmark lado a lado de semáforos fijos vs. adaptativos' },
+      { item: 'Replay animado tick-a-tick sobre grafo SVG con controles de velocidad' },
+      { item: 'Persistencia dual: SQLite (dev) → Turso/libSQL (prod) con posiciones por tick' },
+      { item: 'CLI completo con exportación a terminal/CSV, seeds reproducibles y flag --compare' },
+    ],
+    links: { github: 'https://github.com/nirec1810/trafico.git', live: 'https://trafico-red.vercel.app/' },
+  },
   {
     title: 'EcoTareas',
     slug: 'ecotareas',
