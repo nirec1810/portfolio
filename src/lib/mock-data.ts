@@ -71,6 +71,38 @@ const mockEducation = [
 
 const mockProjectsEn = [
   {
+    title: 'Adam',
+    slug: 'adam-asistente-de-voz',
+    description: 'Spanish voice assistant with dual execution modes (desktop CLI and web server), speech recognition, and neural voice synthesis. Interprets commands by voice or text and responds with natural audio, with a web interface that visualizes the audio waveform in real time.',
+    longDescription: [
+      { children: [{ text: 'Spanish voice assistant with dual execution modes: desktop CLI and web server. Both runtimes share the same command logic (comandos.py): the CLI captures the microphone, performs speech recognition, and synthesizes locally with TTS; the web mode uses the browser Web Speech API to capture voice, sends an HTTP request to Flask, and synthesizes the response in the browser.' }] },
+      { children: [{ text: 'Cascading fallback chain for TTS: edge-tts (neural Elvira voice) → gTTS → pyttsx3, so the system does not depend on a single provider if the connection fails.' }] },
+      { children: [{ text: 'Includes 10 voice commands (open YouTube/browser, time, day, Wikipedia search, Google search, play music, tell jokes, stock price lookup with yfinance, help), a web interface with live audio waveform visualization, and an interactive chat with conversation context tracking.' }] },
+      { children: [{ text: 'Containerized deployment on Render via Docker, with system dependencies (portaudio) resolved in the Dockerfile.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'Python', architecture: 'Dual runtime: CLI + Web (Flask) sharing comandos.py',
+    techStack: [
+      { tech: 'Python', role: 'Main language and command logic' },
+      { tech: 'Flask', role: 'Web server' },
+      { tech: 'Edge-TTS', role: 'Neural voice synthesis' },
+      { tech: 'SpeechRecognition', role: 'Speech recognition' },
+      { tech: 'HTML/CSS/JS', role: 'Web interface' },
+      { tech: 'Web Speech API', role: 'Browser voice capture and synthesis' },
+      { tech: 'Docker', role: 'Containerized deployment' },
+      { tech: 'Render', role: 'Hosting' },
+    ],
+    highlights: [
+      { item: '10 voice commands (YouTube, Wikipedia, Google, music, jokes, stock prices with yfinance)' },
+      { item: 'Cascading TTS fallback (edge-tts → gTTS → pyttsx3) for resilience' },
+      { item: 'Dual runtime architecture (native CLI + web server) reusing the same business logic layer' },
+      { item: 'Live audio waveform visualization in the web interface' },
+      { item: 'Interactive chat with conversation context tracking' },
+      { item: 'Containerized deployment on Render with system audio dependencies solved in the Dockerfile' },
+    ],
+    links: { github: 'https://github.com/nirec1810/asistente.git', live: 'https://asistente-v011.onrender.com/' },
+  },
+  {
     title: 'Trafico',
     slug: 'trafico',
     description: 'Full-stack urban traffic simulation tool with CLI engine, REST API, and interactive web dashboard. Models road networks as directed graphs, simulates vehicular flow with configurable traffic lights, and generates congestion metrics.',
@@ -338,6 +370,38 @@ const mockProjectsEn = [
 ]
 
 const mockProjectsEs = [
+  {
+    title: 'Adam',
+    slug: 'adam-asistente-de-voz',
+    description: 'Asistente de voz en español con doble modo de ejecución (CLI de escritorio y servidor web), reconocimiento de voz y síntesis con voces neurales. Interpreta comandos por voz o texto y responde con audio natural, con una interfaz web que visualiza la onda de audio en tiempo real.',
+    longDescription: [
+      { children: [{ text: 'Asistente de voz en español con doble modo de ejecución: CLI de escritorio y servidor web. Ambos runtimes comparten la misma lógica de comandos (comandos.py): el CLI captura el micrófono, realiza reconocimiento de voz y sintetiza localmente con TTS; el modo web usa la Web Speech API del navegador para capturar la voz, envía la petición HTTP a Flask y sintetiza la respuesta en el navegador.' }] },
+      { children: [{ text: 'Cadena de fallback en cascada para TTS: edge-tts (voz neural Elvira) → gTTS → pyttsx3, para no depender de un solo proveedor si falla la conexión.' }] },
+      { children: [{ text: 'Incluye 10 comandos de voz (abrir YouTube/navegador, hora, día, búsqueda en Wikipedia, búsqueda en Google, reproducir música, contar chistes, consultar precio de acciones con yfinance, ayuda), una interfaz web con visualización de la onda de audio en vivo y un chat interactivo con seguimiento de contexto en la conversación.' }] },
+      { children: [{ text: 'Despliegue containerizado en Render vía Docker, con dependencias de sistema (portaudio) resueltas en el Dockerfile.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'Python', architecture: 'Dual runtime: CLI + Web (Flask) compartiendo comandos.py',
+    techStack: [
+      { tech: 'Python', role: 'Lenguaje principal y lógica de comandos' },
+      { tech: 'Flask', role: 'Servidor web' },
+      { tech: 'Edge-TTS', role: 'Síntesis de voz neural' },
+      { tech: 'SpeechRecognition', role: 'Reconocimiento de voz' },
+      { tech: 'HTML/CSS/JS', role: 'Interfaz web' },
+      { tech: 'Web Speech API', role: 'Captura y síntesis de voz en el navegador' },
+      { tech: 'Docker', role: 'Despliegue containerizado' },
+      { tech: 'Render', role: 'Hosting' },
+    ],
+    highlights: [
+      { item: '10 comandos de voz (YouTube, Wikipedia, Google, música, chistes, precio de acciones con yfinance)' },
+      { item: 'Cadena de fallback en cascada para TTS (edge-tts → gTTS → pyttsx3) para resiliencia' },
+      { item: 'Arquitectura dual runtime (CLI nativo + servidor web) reusando la misma capa de lógica de negocio' },
+      { item: 'Visualización de la onda de audio en vivo en la interfaz web' },
+      { item: 'Chat interactivo con seguimiento de contexto en la conversación' },
+      { item: 'Despliegue containerizado en Render con dependencias de audio de sistema resueltas en el Dockerfile' },
+    ],
+    links: { github: 'https://github.com/nirec1810/asistente.git', live: 'https://asistente-v011.onrender.com/' },
+  },
   {
     title: 'Trafico',
     slug: 'trafico',
