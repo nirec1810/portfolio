@@ -557,6 +557,25 @@ const mockProjectsEs = [
     links: { github: 'https://github.com/nirec1810/ecoshelf-analytics', live: 'https://ecoshelf-analytics.vercel.app/' },
   },
   {
+    title: 'Voxline',
+    slug: 'voxline',
+    description: 'Aplicación de chat en tiempo real usando WebSockets — comunicación bidireccional persistente entre cliente y servidor.',
+    longDescription: [
+      { children: [{ text: 'Sistema de chat en tiempo real con WebSockets. Comunicación bidireccional persistente entre cliente y servidor sin polling. Implementación completa del protocolo WebSocket.' }] },
+    ],
+    year: 2026, featured: false, tier: 4,
+    primaryLanguage: 'HTML/JS', architecture: 'WebSocket real-time',
+    techStack: [
+      { tech: 'HTML', role: 'Estructura' }, { tech: 'JavaScript', role: 'Lógica WebSocket' },
+      { tech: 'WebSockets', role: 'Comunicación en tiempo real' },
+    ],
+    highlights: [
+      { item: 'Comunicación bidireccional persistente' },
+      { item: 'Sin polling — WebSockets nativos' },
+    ],
+    links: { github: 'https://github.com/nirec1810/Voxline', live: 'https://voxline.onrender.com' },
+  },
+  {
     title: 'Mejores Prácticas',
     slug: 'mejores-practicas',
     description: 'Aplicación web ASP.NET Core MVC con implementación de patrones de diseño GoF: Singleton, Repository, Builder y Factory Method.',
@@ -664,25 +683,6 @@ const mockProjectsEs = [
       { item: 'Backend Spring Boot + Frontend React' },
     ],
     links: { github: 'https://github.com/nirec1810/ArquitecturaC4' },
-  },
-  {
-    title: 'Voxline',
-    slug: 'voxline',
-    description: 'Aplicación de chat en tiempo real usando WebSockets — comunicación bidireccional persistente entre cliente y servidor.',
-    longDescription: [
-      { children: [{ text: 'Sistema de chat en tiempo real con WebSockets. Comunicación bidireccional persistente entre cliente y servidor sin polling. Implementación completa del protocolo WebSocket.' }] },
-    ],
-    year: 2026, featured: false, tier: 4,
-    primaryLanguage: 'HTML/JS', architecture: 'WebSocket real-time',
-    techStack: [
-      { tech: 'HTML', role: 'Estructura' }, { tech: 'JavaScript', role: 'Lógica WebSocket' },
-      { tech: 'WebSockets', role: 'Comunicación en tiempo real' },
-    ],
-    highlights: [
-      { item: 'Comunicación bidireccional persistente' },
-      { item: 'Sin polling — WebSockets nativos' },
-    ],
-    links: { github: 'https://github.com/nirec1810/Voxline', live: 'https://voxline.onrender.com' },
   },
   {
     title: 'RecaldeNicolasPeople',
