@@ -71,7 +71,7 @@ const mockEducation = [
 
 const mockProjectsEn = [
   {
-    title: 'noisedata (Signal / Noise)',
+    title: 'Noise-Data',
     slug: 'noisedata',
     description: 'Local-first prototype that transports arbitrary data (files or text) by encoding them as "visual noise" readable by camera within a WebM video — a robust optical data channel resistant to frame loss and re-encoding, closer to an animated QR with error correction than traditional steganography.',
     longDescription: [
