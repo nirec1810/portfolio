@@ -71,6 +71,39 @@ const mockEducation = [
 
 const mockProjectsEn = [
   {
+    title: 'noisedata (Signal / Noise)',
+    slug: 'noisedata',
+    description: 'Local-first prototype that transports arbitrary data (files or text) by encoding them as "visual noise" readable by camera within a WebM video — a robust optical data channel resistant to frame loss and re-encoding, closer to an animated QR with error correction than traditional steganography.',
+    longDescription: [
+      { children: [{ text: 'Local-first optical data transport protocol: encodes arbitrary data (files or text) as camera-readable "visual noise" patterns inside a WebM video stream. Not steganography in the classic sense — it is a data-to-video codec with built-in error correction, designed to survive frame drops and re-encoding.' }] },
+      { children: [{ text: 'Hand-implemented Reed-Solomon RS(255,239) with 3-way interleaving in pure JS: GF(256) arithmetic, Berlekamp-Massey decoder, Chien search and Forney algorithm — corrects up to 8 bytes of error per interleaved block. Temporal redundancy via fixed ×3 packet repetition for frame-loss tolerance.' }] },
+      { children: [{ text: '32×32 logical grid per frame with deterministic luminance seed patterns, CRC-32 per chunk, CRC-16 header, SHA-256 payload fingerprint, and optional AES-256-GCM encryption with PBKDF2-SHA256 key derivation (310k iterations). Packet framing with magic bytes SN01, sequence number, packet count, offset, and header CRC.' }] },
+      { children: [{ text: '100% vanilla JS/HTML/CSS with zero dependencies and no build step — runs directly with a static server (index.html, app.js, crypto.js, rs.js, bitrate.js). Deployed on Netlify.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'JavaScript', architecture: 'Vanilla JS/HTML/CSS — no framework, no build step',
+    techStack: [
+      { tech: 'JavaScript', role: 'Core language — RS codec, crypto, UI orchestration' },
+      { tech: 'HTML5', role: 'UI structure' },
+      { tech: 'CSS3', role: 'Styling' },
+      { tech: 'Web Crypto API', role: 'AES-256-GCM + PBKDF2 encryption' },
+      { tech: 'Canvas API', role: 'Video stream generation and frame reading' },
+      { tech: 'MediaRecorder', role: 'WebM/VP9 video encoding' },
+      { tech: 'Reed-Solomon', role: 'Forward error correction (hand-implemented)' },
+      { tech: 'Netlify', role: 'Deployment' },
+    ],
+    highlights: [
+      { item: 'Hand-implemented Reed-Solomon RS(255,239) with Berlekamp-Massey, Chien search and Forney in pure JS — strong signal of applied math/systems fundamentals' },
+      { item: 'Custom optical data protocol with CRC-32/16 integrity, SHA-256 payload fingerprint, and AES-256-GCM optional encryption' },
+      { item: 'Clean module separation: crypto.js (security), rs.js (FEC), bitrate.js (throughput modeling), app.js (UI orchestration)' },
+      { item: '32×32 grid visual encoding with deterministic seed luminance patterns for camera readability' },
+      { item: 'Temporal redundancy: ×3 packet repetition for frame-loss resilience + 3-way RS interleaving' },
+      { item: 'Framing protocol with magic bytes SN01, sequence numbers, offsets, and header CRC — never delivers a file if checksum fails' },
+      { item: 'Zero dependencies, zero build step — pure vanilla JS running on a static server' },
+    ],
+    links: { github: 'https://github.com/Nicolasre18/noisedata.git', live: 'https://noise-data.netlify.app/' },
+  },
+  {
     title: 'Adam',
     slug: 'adam-asistente-de-voz',
     description: 'Spanish voice assistant with dual execution modes (desktop CLI and web server), speech recognition, and neural voice synthesis. Interprets commands by voice or text and responds with natural audio, with a web interface that visualizes the audio waveform in real time.',
@@ -405,6 +438,39 @@ const mockProjectsEn = [
 ]
 
 const mockProjectsEs = [
+  {
+    title: 'noisedata (Signal / Noise)',
+    slug: 'noisedata',
+    description: 'Prototipo local-first que transporta datos arbitrarios (archivos o texto) codificándolos como "ruido visual" legible por cámara dentro de un video WebM — un canal de datos óptico robusto a pérdida de frames y re-encoding, más cercano a un QR animado con corrección de errores que a esteganografía.',
+    longDescription: [
+      { children: [{ text: 'Protocolo de transporte óptico de datos: codifica datos arbitrarios (archivos o texto) como patrones de "ruido visual" legibles por cámara dentro de un stream de video WebM. No es esteganografía en el sentido clásico — es un códec de datos-a-video con corrección de errores integrado, diseñado para sobrevivir caídas de frames y re-encoding.' }] },
+      { children: [{ text: 'Reed-Solomon RS(255,239) implementado a mano en JS puro con interleaving 3-way: aritmética en GF(256), decodificador Berlekamp-Massey, búsqueda de Chien y algoritmo de Forney — corrige hasta 8 bytes de error por bloque entrelazado. Redundancia temporal vía repetición fija ×3 por paquete para tolerar pérdida de frames.' }] },
+      { children: [{ text: 'Grid visual 32×32 por frame con patrones de luminancia de seed determinística, CRC-32 por chunk, CRC-16 de header, SHA-256 del payload completo, y cifrado opcional AES-256-GCM con derivación PBKDF2-SHA256 (310k iteraciones). Framing con magic bytes SN01, número de secuencia, conteo de paquetes, offset y CRC de header.' }] },
+      { children: [{ text: '100% vanilla JS/HTML/CSS sin dependencias ni build step — corre directo con un static server (index.html, app.js, crypto.js, rs.js, bitrate.js). Deploy en Netlify.' }] },
+    ],
+    year: 2026, featured: true, tier: 5,
+    primaryLanguage: 'JavaScript', architecture: 'Vanilla JS/HTML/CSS — sin framework, sin build step',
+    techStack: [
+      { tech: 'JavaScript', role: 'Lenguaje core — códec RS, crypto, orquestación UI' },
+      { tech: 'HTML5', role: 'Estructura de la UI' },
+      { tech: 'CSS3', role: 'Estilos' },
+      { tech: 'Web Crypto API', role: 'Cifrado AES-256-GCM + PBKDF2' },
+      { tech: 'Canvas API', role: 'Generación de stream de video y lectura de frames' },
+      { tech: 'MediaRecorder', role: 'Codificación WebM/VP9' },
+      { tech: 'Reed-Solomon', role: 'Corrección de errores adelantada (implementado a mano)' },
+      { tech: 'Netlify', role: 'Despliegue' },
+    ],
+    highlights: [
+      { item: 'Reed-Solomon RS(255,239) implementado a mano con Berlekamp-Massey, búsqueda de Chien y Forney en JS puro — señal fuerte de fundamentos de sistemas/matemática aplicada' },
+      { item: 'Protocolo óptico de datos con integridad CRC-32/16, huella SHA-256 del payload y cifrado opcional AES-256-GCM' },
+      { item: 'Separación clara de módulos: crypto.js (seguridad), rs.js (FEC), bitrate.js (modelado de throughput), app.js (orquestación UI)' },
+      { item: 'Codificación visual en grid 32×32 con patrones de luminancia de seed determinística para legibilidad por cámara' },
+      { item: 'Redundancia temporal: repetición ×3 por paquete para resiliencia a caídas de frames + interleaving 3-way con RS' },
+      { item: 'Protocolo de framing con magic bytes SN01, números de secuencia, offsets y CRC de header — nunca entrega un archivo si el checksum falla' },
+      { item: 'Zero dependencias, zero build step — JS vanilla puro corriendo en un static server' },
+    ],
+    links: { github: 'https://github.com/Nicolasre18/noisedata.git', live: 'https://noise-data.netlify.app/' },
+  },
   {
     title: 'Adam',
     slug: 'adam-asistente-de-voz',
